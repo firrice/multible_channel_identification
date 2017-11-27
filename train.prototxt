@@ -1,0 +1,860 @@
+name: "MC"
+layer {
+  name: 'input-data'
+  type: 'Python'
+  top: 'image_1'
+  top: 'image_2'
+  top: 'image_3'
+  python_param {
+    module: 'mc_data_layer'
+    layer: 'MCDataLayer'
+    param_str: "{'split':['cam_a' , 'cam_b'],'batch_size':3 , 'im_shape':[230,80] , 'viper_root':['/home/zf/caffe/multible_channel_identification/data/VIPeR/cam_a/' , '/home/zf/caffe/multible_channel_identification/data/VIPeR/cam_b/']}"
+  }
+}
+#==============channel one===========
+
+layer {
+	name: "MC1_G_conv1"
+	type: "Convolution"
+	bottom: "image_1"
+	top: "MC1_G_conv1"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 7
+		pad: 3
+		stride: 3
+	}
+}
+layer {
+  name: 'MC1_devide'
+  type: 'Python'
+  bottom: 'MC1_G_conv1'
+  top: 'MC1_body_1'
+  top: 'MC1_body_2'
+  top: 'MC1_body_3'
+  top: 'MC1_body_4'
+  top: 'MC1_global_body'
+  python_param {
+    module: 'mc1_devide_layer'
+    layer: 'MC1_DevideLayer'
+    param_str: "'parts_num': 5"
+  }
+}
+#==============channel one===========
+
+#==============body one===========
+layer {
+	name: "MC1_P1_conv1"
+	type: "Convolution"
+	bottom: "MC1_body_1"
+	top: "MC1_P1_conv1"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+	name: "MC1_P1_conv2"
+	type: "Convolution"
+	bottom: "MC1_P1_conv1"
+	top: "MC1_P1_conv2"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+  name: "MC1_P1_fc"
+  type: "InnerProduct"
+  bottom: "MC1_P1_conv2"
+  top: "MC1_P1_fc"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  inner_product_param {
+    num_output: 100
+  }
+}
+#======================channel one==========================
+
+#======================body two=============================
+layer {
+	name: "MC1_P2_conv1"
+	type: "Convolution"
+	bottom: "MC1_body_2"
+	top: "MC1_P2_conv1"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+	name: "MC1_P2_conv2"
+	type: "Convolution"
+	bottom: "MC1_P2_conv1"
+	top: "MC1_P2_conv2"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+  name: "MC1_P2_fc"
+  type: "InnerProduct"
+  bottom: "MC1_P2_conv2"
+  top: "MC1_P2_fc"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  inner_product_param {
+    num_output: 100
+  }
+}
+#======================channel one==========================
+
+#======================body three=============================
+layer {
+	name: "MC1_P3_conv1"
+	type: "Convolution"
+	bottom: "MC1_body_3"
+	top: "MC1_P3_conv1"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+	name: "MC1_P3_conv2"
+	type: "Convolution"
+	bottom: "MC1_P3_conv1"
+	top: "MC1_P3_conv2"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+  name: "MC1_P3_fc"
+  type: "InnerProduct"
+  bottom: "MC1_P3_conv2"
+  top: "MC1_P3_fc"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  inner_product_param {
+    num_output: 100
+  }
+}
+#======================channel one==========================
+
+#======================body four=============================
+layer {
+	name: "MC1_P4_conv1"
+	type: "Convolution"
+	bottom: "MC1_body_4"
+	top: "MC1_P4_conv1"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+	name: "MC1_P4_conv2"
+	type: "Convolution"
+	bottom: "MC1_P4_conv1"
+	top: "MC1_P4_conv2"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+  name: "MC1_P4_fc"
+  type: "InnerProduct"
+  bottom: "MC1_P4_conv2"
+  top: "MC1_P4_fc"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  inner_product_param {
+    num_output: 100
+  }
+}
+#======================channel one==========================
+
+#======================global body=============================
+layer {
+	name: "MC1_B_pool1"
+	type: "Pooling"
+	bottom: "MC1_global_body"
+	top: "MC1_B_pool1"
+	pooling_param {
+		kernel_size: 3
+		stride: 2
+		pad: 1
+		pool: MAX
+	}
+}
+layer {
+	name: "MC1_B_conv2"
+	type: "Convolution"
+	bottom: "MC1_B_pool1"
+	top: "MC1_B_conv2"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+	name: "MC1_B_pool2"
+	type: "Pooling"
+	bottom: "MC1_B_conv2"
+	top: "MC1_B_pool2"
+	pooling_param {
+		kernel_size: 3
+		stride: 2
+		pad: 1
+		pool: MAX
+	}
+}
+layer {
+  name: "MC1_B_fc"
+  type: "InnerProduct"
+  bottom: "MC1_B_pool2"
+  top: "MC1_B_fc"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  inner_product_param {
+    num_output: 100
+  }
+}
+layer {
+  name: 'MC1_weighted_connect'
+  type: 'Python'
+  bottom: 'MC1_P1_fc'
+  bottom: 'MC1_P2_fc'
+  bottom: 'MC1_P3_fc'
+  bottom: 'MC1_P4_fc'
+  bottom: 'MC1_B_fc'
+  top: 'MC1_connected_feature'
+  python_param {
+    module: 'MC1_weighted_connect_layer'
+    layer: 'MC1_WeightedconnectLayer'
+    param_str: "'feature_num': 5"
+  }
+}
+layer {
+  name: "MC1_N_fc"
+  type: "InnerProduct"
+  bottom: "MC1_connected_feature"
+  top: "MC1_N_fc"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  inner_product_param {
+    num_output: 800
+  }
+}
+#================channel two======================
+
+layer {
+	name: "MC2_G_conv1"
+	type: "Convolution"
+	bottom: "image_2"
+	top: "MC2_G_conv1"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 7
+		pad: 3
+		stride: 3
+	}
+}
+layer {
+  name: 'MC2_devide'
+  type: 'Python'
+  bottom: 'MC2_G_conv1'
+  top: 'MC2_body_1'
+  top: 'MC2_body_2'
+  top: 'MC2_body_3'
+  top: 'MC2_body_4'
+  top: 'MC2_global_body'
+  python_param {
+    module: 'mc2_devide_layer'
+    layer: 'MC2_DevideLayer'
+    param_str: "'parts_num': 5"
+  }
+}
+#==============channel two===========
+
+#==============body one===========
+layer {
+	name: "MC2_P1_conv1"
+	type: "Convolution"
+	bottom: "MC2_body_1"
+	top: "MC2_P1_conv1"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+	name: "MC2_P1_conv2"
+	type: "Convolution"
+	bottom: "MC2_P1_conv1"
+	top: "MC2_P1_conv2"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+  name: "MC2_P1_fc"
+  type: "InnerProduct"
+  bottom: "MC2_P1_conv2"
+  top: "MC2_P1_fc"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  inner_product_param {
+    num_output: 100
+  }
+}
+#======================channel two==========================
+
+#======================body two=============================
+layer {
+	name: "MC2_P2_conv1"
+	type: "Convolution"
+	bottom: "MC2_body_2"
+	top: "MC2_P2_conv1"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+	name: "MC2_P2_conv2"
+	type: "Convolution"
+	bottom: "MC2_P2_conv1"
+	top: "MC2_P2_conv2"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+  name: "MC2_P2_fc"
+  type: "InnerProduct"
+  bottom: "MC2_P2_conv2"
+  top: "MC2_P2_fc"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  inner_product_param {
+    num_output: 100
+  }
+}
+#======================channel two==========================
+
+#======================body three=============================
+layer {
+	name: "MC2_P3_conv1"
+	type: "Convolution"
+	bottom: "MC2_body_3"
+	top: "MC2_P3_conv1"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+	name: "MC2_P3_conv2"
+	type: "Convolution"
+	bottom: "MC2_P3_conv1"
+	top: "MC2_P3_conv2"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+  name: "MC2_P3_fc"
+  type: "InnerProduct"
+  bottom: "MC2_P3_conv2"
+  top: "MC2_P3_fc"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  inner_product_param {
+    num_output: 100
+  }
+}
+#======================channel two==========================
+
+#======================body four=============================
+layer {
+	name: "MC2_P4_conv1"
+	type: "Convolution"
+	bottom: "MC2_body_4"
+	top: "MC2_P4_conv1"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+	name: "MC2_P4_conv2"
+	type: "Convolution"
+	bottom: "MC2_P4_conv1"
+	top: "MC2_P4_conv2"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+  name: "MC2_P4_fc"
+  type: "InnerProduct"
+  bottom: "MC2_P4_conv2"
+  top: "MC2_P4_fc"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  inner_product_param {
+    num_output: 100
+  }
+}
+#======================channel two==========================
+
+#======================global body=============================
+layer {
+	name: "MC2_B_pool1"
+	type: "Pooling"
+	bottom: "MC2_global_body"
+	top: "MC2_B_pool1"
+	pooling_param {
+		kernel_size: 3
+		stride: 2
+		pad: 1
+		pool: MAX
+	}
+}
+layer {
+	name: "MC2_B_conv2"
+	type: "Convolution"
+	bottom: "MC2_B_pool1"
+	top: "MC2_B_conv2"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+	name: "MC2_B_pool2"
+	type: "Pooling"
+	bottom: "MC2_B_conv2"
+	top: "MC2_B_pool2"
+	pooling_param {
+		kernel_size: 3
+		stride: 2
+		pad: 1
+		pool: MAX
+	}
+}
+layer {
+  name: "MC2_B_fc"
+  type: "InnerProduct"
+  bottom: "MC2_B_pool2"
+  top: "MC2_B_fc"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  inner_product_param {
+    num_output: 100
+  }
+}
+layer {
+  name: 'MC2_weighted_connect'
+  type: 'Python'
+  bottom: 'MC2_P1_fc'
+  bottom: 'MC2_P2_fc'
+  bottom: 'MC2_P3_fc'
+  bottom: 'MC2_P4_fc'
+  bottom: 'MC2_B_fc'
+  top: 'MC2_connected_feature'
+  python_param {
+    module: 'MC2_weighted_connect_layer'
+    layer: 'MC2_WeightedconnectLayer'
+    param_str: "'feature_num': 5"
+  }
+}
+layer {
+  name: "MC2_N_fc"
+  type: "InnerProduct"
+  bottom: "MC2_connected_feature"
+  top: "MC2_N_fc"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  inner_product_param {
+    num_output: 800
+  }
+}
+
+#============================channel three==================
+
+layer {
+	name: "MC3_G_conv1"
+	type: "Convolution"
+	bottom: "image_3"
+	top: "MC3_G_conv1"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 7
+		pad: 3
+		stride: 3
+	}
+}
+layer {
+  name: 'MC3_devide'
+  type: 'Python'
+  bottom: 'MC3_G_conv1'
+  top: 'MC3_body_1'
+  top: 'MC3_body_2'
+  top: 'MC3_body_3'
+  top: 'MC3_body_4'
+  top: 'MC3_global_body'
+  python_param {
+    module: 'mc3_devide_layer'
+    layer: 'MC3_DevideLayer'
+    param_str: "'parts_num': 5"
+  }
+}
+#==============channel three===========
+
+#==============body one===========
+layer {
+	name: "MC3_P1_conv1"
+	type: "Convolution"
+	bottom: "MC3_body_1"
+	top: "MC3_P1_conv1"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+	name: "MC3_P1_conv2"
+	type: "Convolution"
+	bottom: "MC3_P1_conv1"
+	top: "MC3_P1_conv2"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+  name: "MC3_P1_fc"
+  type: "InnerProduct"
+  bottom: "MC3_P1_conv2"
+  top: "MC3_P1_fc"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  inner_product_param {
+    num_output: 100
+  }
+}
+#======================channel three==========================
+
+#======================body two=============================
+layer {
+	name: "MC3_P2_conv1"
+	type: "Convolution"
+	bottom: "MC3_body_2"
+	top: "MC3_P2_conv1"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+	name: "MC3_P2_conv2"
+	type: "Convolution"
+	bottom: "MC3_P2_conv1"
+	top: "MC3_P2_conv2"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+  name: "MC3_P2_fc"
+  type: "InnerProduct"
+  bottom: "MC3_P2_conv2"
+  top: "MC3_P2_fc"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  inner_product_param {
+    num_output: 100
+  }
+}
+#======================channel three==========================
+
+#======================body three=============================
+layer {
+	name: "MC3_P3_conv1"
+	type: "Convolution"
+	bottom: "MC3_body_3"
+	top: "MC3_P3_conv1"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+	name: "MC3_P3_conv2"
+	type: "Convolution"
+	bottom: "MC3_P3_conv1"
+	top: "MC3_P3_conv2"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+  name: "MC3_P3_fc"
+  type: "InnerProduct"
+  bottom: "MC3_P3_conv2"
+  top: "MC3_P3_fc"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  inner_product_param {
+    num_output: 100
+  }
+}
+#======================channel three==========================
+
+#======================body four=============================
+layer {
+	name: "MC3_P4_conv1"
+	type: "Convolution"
+	bottom: "MC3_body_4"
+	top: "MC3_P4_conv1"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+	name: "MC3_P4_conv2"
+	type: "Convolution"
+	bottom: "MC3_P4_conv1"
+	top: "MC3_P4_conv2"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+  name: "MC3_P4_fc"
+  type: "InnerProduct"
+  bottom: "MC3_P4_conv2"
+  top: "MC3_P4_fc"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  inner_product_param {
+    num_output: 100
+  }
+}
+#======================channel three==========================
+
+#======================global body=============================
+layer {
+	name: "MC3_B_pool1"
+	type: "Pooling"
+	bottom: "MC3_global_body"
+	top: "MC3_B_pool1"
+	pooling_param {
+		kernel_size: 3
+		stride: 2
+		pad: 1
+		pool: MAX
+	}
+}
+layer {
+	name: "MC3_B_conv2"
+	type: "Convolution"
+	bottom: "MC3_B_pool1"
+	top: "MC3_B_conv2"
+	param { lr_mult: 1.0 }
+	param { lr_mult: 2.0 }
+	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		pad: 3
+		stride: 2
+	}
+}
+layer {
+	name: "MC3_B_pool2"
+	type: "Pooling"
+	bottom: "MC3_B_conv2"
+	top: "MC3_B_pool2"
+	pooling_param {
+		kernel_size: 3
+		stride: 2
+		pad: 1
+		pool: MAX
+	}
+}
+layer {
+  name: "MC3_B_fc"
+  type: "InnerProduct"
+  bottom: "MC3_B_pool2"
+  top: "MC3_B_fc"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  inner_product_param {
+    num_output: 100
+  }
+}
+layer {
+  name: 'MC3_weighted_connect'
+  type: 'Python'
+  bottom: 'MC3_P1_fc'
+  bottom: 'MC3_P2_fc'
+  bottom: 'MC3_P3_fc'
+  bottom: 'MC3_P4_fc'
+  bottom: 'MC3_B_fc'
+  top: 'MC3_connected_feature'
+  python_param {
+    module: 'MC3_weighted_connect_layer'
+    layer: 'MC3_WeightedconnectLayer'
+    param_str: "'feature_num': 5"
+  }
+}
+layer {
+  name: "MC3_N_fc"
+  type: "InnerProduct"
+  bottom: "MC3_connected_feature"
+  top: "MC3_N_fc"
+  param { lr_mult: 1.0 }
+  param { lr_mult: 2.0 }
+  inner_product_param {
+    num_output: 800
+  }
+}
+
+#===================Loss======================
+layer {
+  name: 'triplet_loss'
+  type: 'Python'
+  bottom: 'MC1_N_fc'
+  bottom: 'MC2_N_fc'
+  bottom: 'MC3_N_fc'
+  top: 'finnal_loss'
+  python_param {
+    module: 'triplet_loss_layer'
+    layer: 'TripletLossLayer'
+    #param_str: "'feature_num': 5"
+  }
+}

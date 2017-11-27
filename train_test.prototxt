@@ -1,0 +1,13 @@
+name: "MC"
+layer {
+  name: 'input-data'
+  type: 'Python'
+  top: 'image_1'
+  top: 'image_2'
+  top: 'image_3'
+  python_param {
+    module: 'mc_data_layer'
+    layer: 'MCDataLayer'
+    param_str: "{'split':['cam_a' , 'cam_b'],'batch_size':3 , 'im_shape':[80,230] , 'viper_root':['/home/zf/caffe/multible_channel_identification/data/VIPeR/cam_a/' , '/home/zf/caffe/multible_channel_identification/data/VIPeR/cam_b/']}"
+  }
+}
